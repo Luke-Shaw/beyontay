@@ -2,9 +2,8 @@
 # Functions and Packages for creating a BeyonTay verse
 ################################################################################
 # packages
-library(tidyverse)
-library(hunspell)
-library(ggtext)
+if (!require("tidyverse")) install.packages("tidyverse")
+if (!require("ggtext")) install.packages("ggtext")
 
 get_rhyming_lyrics <- function(ipa_to_rhyme, 
                                line_ending_words, 

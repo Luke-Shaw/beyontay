@@ -21,5 +21,6 @@ verse_plot(get_verse(seed = 14))
 verse_plot(get_verse(seed = 18))
 verse_plot(get_verse(seed = 1729))
 
-set.seed(1)
+# Or can randomly go forth without setting a seed (though may be harder to 
+# recover a good lyric!)
 verse_plot(get_verse())

@@ -115,7 +115,7 @@ verse_plot <- function(verse){
          subtitle = paste0(
            "Rhyming couplets made pairing ",
            "<b style='color:#1b9E77'>Beyoncé</b>", 
-           "and",
+           " and",
            "<b style='color:#7570B3'> Taylor Swift</b>",
            " lyrics"),
          colour="",

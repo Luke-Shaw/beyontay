@@ -1,4 +1,8 @@
+
+---
 **To make your own BeyonTay verse, download this repo and run `main.R`**
+
+---
 
 ![Example with random seed=1](/beyontay-seed-1.png)
 

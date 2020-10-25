@@ -4,6 +4,6 @@
 
 ---
 
-![Example with random seed=1](/figs/beyontay-seed-1.png)
+![Example with random seed=1](/figs/beyontay-seed-25.png)
 
 Data from #[TidyTuesday](https://github.com/rfordatascience/tidytuesday) 2020 week 40. 

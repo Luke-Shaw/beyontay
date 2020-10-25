@@ -11,16 +11,15 @@ line_per_row <- read_csv(here::here("data/line_per_row.csv"),col_types = cols())
 
 # Can use the variable seed to set a new random number determining which lyrics 
 # to pull, or can delve into the code in /functions.R to see the raw data
-verse_plot(get_verse(seed = 1))
+plot_verse(get_verse(seed = 1))
 
-# Some personal favourites
-verse_plot(get_verse(seed = 6))
-verse_plot(get_verse(seed = 10))
-verse_plot(get_verse(seed = 12))
-verse_plot(get_verse(seed = 14))
-verse_plot(get_verse(seed = 18))
-verse_plot(get_verse(seed = 1729))
+# Some examples. Note doesn't always work perfectly (see blog)
+plot_verse(get_verse(seed = 8))
+plot_verse(get_verse(seed = 19))
+plot_verse(get_verse(seed = 22))
+plot_verse(get_verse(seed = 25))
+plot_verse(get_verse(seed = 39))
 
 # Or can randomly go forth without setting a seed (though may be harder to 
 # recover a good lyric!)
-verse_plot(get_verse())
+plot_verse(get_verse())

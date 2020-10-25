@@ -51,7 +51,6 @@ get_random_lyric_pair <- function(line_ending_words,
                                           song_name == chosen_line$song_name,
                                           song_line == chosen_line$song_line)
   
-  
   rhyming_lyrics <- get_rhyming_lyrics(ipa_to_rhyme = chosen_line$ipa,
                                        line_ending_words,
                                        line_per_row)
@@ -81,16 +80,37 @@ get_random_lyric_pair <- function(line_ending_words,
   }
 }
 
-get_verse <- function(seed = "ignore"){
-  # get 2 BeyonTay rhyming couplets 
+get_verse <- function(seed = "ignore",
+                      line_limit = 40){
+  # get 2 BeyonTay rhyming couplets. 
+  # line_limit is the max nchar per line, default 40 for easy plotting 
   if(seed!="ignore"){set.seed(seed)}
-  verse <- bind_rows(
-    get_random_lyric_pair(line_ending_words, line_per_row, keep_going = TRUE),
-    get_random_lyric_pair(line_ending_words, line_per_row, keep_going = TRUE))
+  
+  # use while to check within line_limit
+  first_couplet <- get_random_lyric_pair(line_ending_words, 
+                                         line_per_row, 
+                                         keep_going = TRUE)
+  while(max(nchar(first_couplet$line)) > line_limit){
+    first_couplet <- get_random_lyric_pair(line_ending_words, 
+                                           line_per_row, 
+                                           keep_going = TRUE)
+  }
+  
+  secnd_couplet <- get_random_lyric_pair(line_ending_words,
+                                         line_per_row, 
+                                         keep_going = TRUE)
+  while(max(nchar(secnd_couplet$line)) > line_limit){
+    secnd_couplet <- get_random_lyric_pair(line_ending_words, 
+                                           line_per_row, 
+                                           keep_going = TRUE)
+  }
+  
+  verse <- bind_rows(first_couplet, secnd_couplet)
+  
   return(verse)
 }
 
-verse_plot <- function(verse){
+plot_verse <- function(verse){
   # ggplot for a verse output
   the_plot <- ggplot(verse, aes(x=c(1,2,3), y=c(4,3,2,1), colour = artist_name)) +
     geom_text(aes(x=2, label=line,hjust=0,fontface=2), size = 5) +
@@ -102,7 +122,7 @@ verse_plot <- function(verse){
                    label=str_wrap(
                      paste0("Songs: ",
                             paste0(song_name,collapse=", ")),
-                     width = 90)),
+                     width = 65)),
                size = 4,
                col=1) +
     lims(x=c(1,6),y=c(-3,7)) +
@@ -112,19 +132,34 @@ verse_plot <- function(verse){
                         "<b style='color:#7570B3'>Tay</b>",
                         " Verse"),
          subtitle = paste0(
-           "Rhyming couplets made pairing ",
-           "<b style='color:#1b9E77'>Beyoncé</b>", 
+           " Randomly pairing ",
+           "<b style='color:#1b9E77'>Beyoncé </b>", 
            " and",
            "<b style='color:#7570B3'> Taylor Swift</b>",
-           " lyrics"),
+           " lyrics that rhyme"),
          colour="",
          size="",
          caption=paste0(
-           "#TidyTuesday by @lukefshaw\n",
-           "Code: https://github.com/Luke-Shaw/beyontay")) +
+           "#TidyTuesday by @lukefshaw \n",
+           "Code: https://github.com/Luke-Shaw/beyontay ")) +
     theme(plot.title = element_markdown(lineheight = 1.1),
           plot.subtitle = element_markdown(lineheight = 1.1),
-          legend.position = "none")
-  
+          legend.position = "none",
+          plot.background = element_rect(
+            fill = "white",
+            colour = "black",
+            size = 1  ))
   return(the_plot)
+}
+
+save_verse_plot <- function(verse_plot = last_plot(), 
+                            filename = "./verse_plot.png"){
+  # save the verse plot in dimensions that work for the way the 
+  # ggplot has been built
+  ggsave(filename = filename,
+         plot = verse_plot,
+         width = 15, height = 10, units = "cm")
+  
+  print(paste0("plot saved at: ", filename))
+  
 }
